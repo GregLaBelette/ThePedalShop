@@ -7,6 +7,7 @@ exports.index = function (req, res, next) {
 	
 	Pedal.find({}, 'name category price')
 	.populate('category')
+	.populate('brand')
 	.exec(function (err, pedals) {
 		if (err) {return next(err) };
 		console.log('pedals: ');
@@ -38,14 +39,41 @@ exports.category_create = function (req, res) {
 //Category Update
 
 exports.category_update = function (req, res) {
-	res.send('Not implemented: Pedal Create');
+	res.send('Not implemented: Category Update');
 }
 
 //Category Delete
 
 exports.category_delete = function (req, res) {
-	res.send('Not implemented: Pedal Create');
+	res.send('Not implemented: Category Delete');
 }
+
+//-------------------------> Brand controllers
+
+//Brands read
+
+exports.brand_read = function (req, res) {
+	res.send('Not implemented: Brand Read');
+}
+
+//Category create
+
+exports.brand_create = function (req, res) {
+	res.send('Not implemented: Brand Create');
+}
+
+//Category Update
+
+exports.brand_update = function (req, res) {
+	res.send('Not implemented: Brand Update');
+}
+
+//Category Delete
+
+exports.brand_delete = function (req, res) {
+	res.send('Not implemented: Brand Delete');
+}
+
 
 //-------------------------> Pedal controllers
 

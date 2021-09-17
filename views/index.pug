@@ -12,3 +12,38 @@ block content
 
     div#message
       h2 #{message}
+
+    div#formandpicture.d-flex.flex-row.p-5.w-100.position-relative
+
+      form#form.w-100
+
+        div.form-group
+          label(for='name') Name: 
+          input#name.form-control(name='name' type='text' placeholder='Pedal name')
+
+        div.form-group
+          label(for='brand') Brand: 
+          input#brand.form-control(name='brand' type='select' placeholder='Select Brand' required='true')
+
+        div.form-group
+          label(for='category') Category: 
+          input#category.form-control(name='category' type='select' placeholder='Select Category' required='true')
+
+        div.form-group
+          label(for='Description') Description: 
+          textarea#description.form-control(name='description' type='textarea', placeholder='Pedal description')
+
+        div.form-group
+          label(for='price') Price: 
+          input#price.form-control(name='price' type='text' placeholder='Pedal price -- €')
+
+        div#buttons.d-flex.flex-row.justify-content-between
+          div.btn.w-100 Create
+          div.btn.w-100 Update
+          div.btn.w-100 Delete
+
+      div#viewselected.d-flex.justify-content-center.align-items-center.position-relative.w-100
+        div#picture.w-75.h-75
+
+
+    div#searchresults

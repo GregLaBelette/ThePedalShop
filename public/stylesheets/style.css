@@ -1,5 +1,4 @@
 /* https://coolors.co/04151f-f7f0f5-7cbbdf-00b7ff-99e2ff-e22866 */
-
 body {
   font-family: 'Raleway';
   font-weight: 300;
@@ -32,4 +31,41 @@ a {
 a:hover {
   color: #99E2FF;
   text-decoration: none;
+}
+
+.btn {
+  background-color: #04151F;
+  border:  solid 1px #7CBBDF;
+  box-shadow: none;
+  color: #7CBBDF;
+  margin:  10px;
+}
+
+.btn:hover {
+  background-color: #04151F;
+  border:  solid 1px #E22866;
+  box-shadow: none;
+  color: #E22866;
+  margin:  10px;
+}
+
+#formandpicture {
+  max-width: 1200px;
+}
+
+#picture {
+  background-image: url('../images/ocd.jpg');
+  background-color:  white;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 5px;
+}
+
+.form-group {
+  padding: 10px;
+}
+
+label {
+  margin-bottom: 5px;
 }

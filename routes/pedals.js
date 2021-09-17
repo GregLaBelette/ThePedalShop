@@ -4,9 +4,11 @@ var router = express.Router();
 //Require controller module
 var controller = require('../controllers/pedal_controller');
 
+
 //-------------------------> HOME PAGE
 
 router.get('/', controller.index);
+
 
 //-------------------------> Category routes
 
@@ -26,6 +28,26 @@ router.post('/category/:id/update', controller.category_update);
 
 router.post('/category/:id/delete', controller.category_delete);
 
+
+//-------------------------> Brand routes
+
+// GET for reading brands
+
+router.get('/brand', controller.brand_read);
+
+// POST for creating a brand
+
+router.post('/brand/create', controller.brand_create);
+
+// POST for updating a category
+
+router.post('/brand/:id/update', controller.brand_update);
+
+// POST for deleting a category
+
+router.post('/brand/:id/delete', controller.brand_delete);
+
+
 //-------------------------> Pedals routes
 
 // GET for searching thru pedals
@@ -43,6 +65,7 @@ router.post('/pedal/:id/update', controller.pedal_update);
 // POST for deleting a pedal
 
 router.post('/pedal/:id/delete', controller.pedal_delete);
+
 
 //-------------------------> Pictures handling
 
