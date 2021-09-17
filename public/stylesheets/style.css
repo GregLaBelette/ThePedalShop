@@ -1,0 +1,35 @@
+/* https://coolors.co/04151f-f7f0f5-7cbbdf-00b7ff-99e2ff-e22866 */
+
+body {
+  font-family: 'Raleway';
+  font-weight: 300;
+  letter-spacing:  0.12em;
+  color: #F7F0F5;
+  background-color: #04151F;
+  font-size:  95%;
+}
+
+h1 {
+  font-family:  'Poppins';
+  font-size: 422%;
+  letter-spacing: 0.2em;
+  font-weight:  600;
+  color: #7CBBDF;
+}
+
+h2 {
+  color: #E22866;
+  font-size:  140%;
+  font-weight:  300;
+  letter-spacing: 0.3em;
+}
+
+a {
+  color: #00B7FF;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #99E2FF;
+  text-decoration: none;
+}
