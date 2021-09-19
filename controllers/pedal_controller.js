@@ -1,25 +1,28 @@
-var Pedal = require('../models/pedal_model');
-var Category = require('../models/pedal_model');
+const {Brand, Category, Pedal} = require('../models/pedal_model');
+var async = require('async');
 
 //-------------------------> Home page
 
-exports.index = function (req, res, next) {
+exports.index = function (req, res) {
 	
-	Pedal.find({}, 'name category price')
-	.populate('category')
-	.populate('brand')
-	.exec(function (err, pedals) {
-		if (err) {return next(err) };
-		console.log('pedals: ');
-		console.log(pedals);
-		if (pedals.length===0) {
-			res.render('index', {title: 'The Pedal Shop', error: err, pedals:pedals, message: 'No pedals here for the moment' });
-			return;
+	async.parallel({
+		brands: function (callback) {
+			Brand.find({})
+			.exec(callback);
+		},
+		categories: function (callback) {
+			Category.find({})
+			.exec(callback);
+		},
+		pedals: function (callback) {
+			Pedal.find({})
+			.populate('brand')
+			.populate('category')
+			.exec(callback)
 		}
-		// Sucess, found pedals
-		res.render('index', {title: 'The Pedal Shop', error: err, pedals:pedals, message: 'Pick a pedal or create a new one' });
-	});
-
+	}, function(err, results) {
+		res.render('index', {title:'The Pedal Shop', error:err, brands:results.brands, categories:results.categories, pedals:results.pedals, message:`Pick a pedal among ${results.pedals.length} or create a new one`});
+	})
 };
 
 //-------------------------> Category controllers

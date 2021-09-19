@@ -23,11 +23,17 @@ block content
 
         div.form-group
           label(for='brand') Brand: 
-          input#brand.form-control(name='brand' type='select' placeholder='Select Brand' required='true')
+          select#brand.form-control(name='brand' type='select' placeholder='Select Brand' required='true')
+            - brands.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+            for brand in brands
+              option(value=brand._id) #{brand.name}
 
         div.form-group
           label(for='category') Category: 
-          input#category.form-control(name='category' type='select' placeholder='Select Category' required='true')
+          select#category.form-control(name='category' type='select' placeholder='Select Category' required='true')
+            - categories.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+            for category in categories
+              option(value=category._id) #{category.name}
 
         div.form-group
           label(for='Description') Description: 

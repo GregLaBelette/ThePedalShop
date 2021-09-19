@@ -8,6 +8,12 @@ body {
   font-size:  95%;
 }
 
+option {
+  font-family: 'Raleway' !Important;
+  color: #04151F;
+  font-size:  95%;
+}
+
 h1 {
   font-family:  'Poppins';
   font-size: 422%;
@@ -33,6 +39,15 @@ a:hover {
   text-decoration: none;
 }
 
+.form-group {
+  font-size:  95%;
+}
+
+input[type='text'], select[type='select'], textarea[type='textarea'] {
+  font-size:  95%;
+  color: #04151F;
+}
+
 .btn {
   background-color: #04151F;
   border:  solid 1px #7CBBDF;
@@ -44,9 +59,13 @@ a:hover {
 .btn:hover {
   background-color: #04151F;
   border:  solid 1px #E22866;
-  box-shadow: none;
   color: #E22866;
-  margin:  10px;
+}
+
+.btn:active {
+  background-color: #04151F;
+  border:  solid 1px #F7F0F5;
+  color: #F7F0F5;
 }
 
 #formandpicture {
