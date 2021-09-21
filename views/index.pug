@@ -10,46 +10,93 @@ block content
       p.mb-0 Custom unique beautiful guitar pedals
       hr
 
-    div#message
+    div#message.p-4
       h2 #{message}
 
-    div#formandpicture.d-flex.flex-row.p-5.w-100.position-relative
+    div#formandpicture.container-fluid
 
-      form#form.w-100
+      div.row
 
-        div.form-group
-          label(for='name') Name: 
-          input#name.form-control(name='name' type='text' placeholder='Pedal name')
+        div#form.col-sm-7.d-flex.flex-column.justify-content-center
+          div.form-group
+            label(for='name') Name
+            input#name.form-control(name='name' type='text' placeholder='Pedal Name')
 
-        div.form-group
-          label(for='brand') Brand: 
-          select#brand.form-control(name='brand' type='select' placeholder='Select Brand' required='true')
-            - brands.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
-            for brand in brands
-              option(value=brand._id) #{brand.name}
+          div.form-group
+            label(for='brand') Brand
+            select#brand.form-control(name='brand' type='select' placeholder='Select Brand' required='true')
 
-        div.form-group
-          label(for='category') Category: 
-          select#category.form-control(name='category' type='select' placeholder='Select Category' required='true')
-            - categories.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
-            for category in categories
-              option(value=category._id) #{category.name}
+              - brands.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
 
-        div.form-group
-          label(for='Description') Description: 
-          textarea#description.form-control(name='description' type='textarea', placeholder='Pedal description')
+              option(value='') ... Select Brand
 
-        div.form-group
-          label(for='price') Price: 
-          input#price.form-control(name='price' type='text' placeholder='Pedal price -- €')
+              for brand in brands
+                option(value=brand._id) #{brand.name}
 
-        div#buttons.d-flex.flex-row.justify-content-between
-          div.btn.w-100 Create
-          div.btn.w-100 Update
-          div.btn.w-100 Delete
+              option(value='') ... Manage brands
 
-      div#viewselected.d-flex.justify-content-center.align-items-center.position-relative.w-100
-        div#picture.w-75.h-75
+          div.form-group
+            label(for='category') Category
+            select#category.form-control(name='category' type='select' placeholder='Select Category' required='true')
+
+              - categories.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+
+              option(value='') ... Select category
+
+              for category in categories
+                option(value=category._id) #{category.name}
+
+              option(value='') ... Manage categories
+
+          div.form-group
+            label(for='Description') Description
+            textarea#description.form-control(name='description' type='textarea', placeholder='Pedal description' rows='6')
+
+          div.form-group
+            label(for='price') Price €
+            input#price.form-control(name='price' type='text' placeholder='Pedal price')
+          
+          div#buttons.d-flex.flex-row.justify-content-around
+            div.btn.w-100 Create
+            div.btn.w-100 Update
+            div.btn.w-100 Delete
+
+        div#picture-container.col-sm-5.d-flex.justify-content-center.align-items-center
+          img#picture.rounded(src='images/pedal-white.png')
+
+    div#searchresults.container.mt-5
+
+      - pedals.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+
+      for pedal in pedals
+        
+        div.row.text-center.pedal.unselected
+          div.col-1.d-flex.justify-content-center.align-items-center
+            if pedal.category.name=='Overdrive'
+              span.fas.fa-fire
+            else if pedal.category.name=='Distortion'
+              span.fas.fa-bolt
+            else if pedal.category.name=='Tremolo'
+              span.fas.fa-water
+            else if pedal.category.name=='Delay'
+              span.fas.fa-wifi
+            else
+              span.fas.fa-volume-up
+
+          div.col.d-flex.justify-content-center.align-items-center
+            span #{pedal.brand.name}
+
+          div.col.d-flex.justify-content-center.align-items-center
+            span.pedal-name #{pedal.name}
+
+          div.col.d-flex.justify-content-center.align-items-center
+            span #{pedal.category.name}
+
+          div.col-1.d-flex.justify-content-center.align-items-center
+            span #{pedal.price} €
+
+          div.col.d-flex.justify-content-center.align-items-center
+              div.miniature(style='background-image: url("../images/pedal-white.png")')
 
 
-    div#searchresults
+

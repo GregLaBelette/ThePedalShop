@@ -1,6 +1,6 @@
 /* https://coolors.co/04151f-f7f0f5-7cbbdf-00b7ff-99e2ff-e22866 */
 body {
-  font-family: 'Raleway';
+  font-family: 'Raleway', sans-serif;
   font-weight: 300;
   letter-spacing:  0.12em;
   color: #F7F0F5;
@@ -9,9 +9,10 @@ body {
 }
 
 option {
-  font-family: 'Raleway' !Important;
+  font-family: 'Raleway', sans-serif !Important;
   color: #04151F;
   font-size:  95%;
+  border-radius:  5px;
 }
 
 h1 {
@@ -68,17 +69,19 @@ input[type='text'], select[type='select'], textarea[type='textarea'] {
   color: #F7F0F5;
 }
 
-#formandpicture {
+#formandpicture, #searchresults {
   max-width: 1200px;
 }
 
+#picture-container {
+  position: relative;
+}
+
 #picture {
-  background-image: url('../images/ocd.jpg');
-  background-color:  white;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 5px;
+  max-width: 100%;
+  max-height:  400px;
+  margin-top:  10px;
+  margin-bottom:  10px;
 }
 
 .form-group {
@@ -87,4 +90,39 @@ input[type='text'], select[type='select'], textarea[type='textarea'] {
 
 label {
   margin-bottom: 5px;
+}
+
+.pedal {
+  border-radius:  20px;
+  margin:  20px 10px 20px 10px;
+}
+
+.unselected {
+  border:  1px solid #7CBBDF;
+  color: #7CBBDF ;
+}
+
+.selected, .unselected:hover {
+  border:  1px solid #E22866;
+  color: #E22866;
+}
+
+.unselected:active {
+  border:  1px solid #F7F0F5;
+  color: #F7F0F5;
+}
+
+.pedal-name {
+  color: #F7F0F5;
+}
+
+.miniature {
+  border-radius:  50%;
+  border:  1px solid white;
+  width:  80px;
+  height:  80px;
+  margin:  8px;
+  background-size: 100%;
+  background-position:  center;
+  background-repeat: none;
 }
