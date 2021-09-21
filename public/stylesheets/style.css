@@ -90,6 +90,7 @@ input[type='text'], select[type='select'], textarea[type='textarea'] {
 
 label {
   margin-bottom: 5px;
+  font-size: 95%;
 }
 
 .pedal {
@@ -102,7 +103,12 @@ label {
   color: #7CBBDF ;
 }
 
-.selected, .unselected:hover {
+.selected {
+  border:  1px solid #F7F0F5;
+  color: #E22866;
+}
+
+.unselected:hover {
   border:  1px solid #E22866;
   color: #E22866;
 }

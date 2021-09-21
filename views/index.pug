@@ -71,6 +71,14 @@ block content
       for pedal in pedals
         
         div.row.text-center.pedal.unselected
+
+          input#hiddenId(value=pedal._id type='hidden')
+          input#hiddenName(value=pedal.name type='hidden')
+          input#hiddenBrand(value=pedal.brand._id type='hidden')
+          input#hiddenCategory(value=pedal.category._id type='hidden')
+          input#hiddenDescription(value=pedal.description type='hidden')
+          input#hiddenPrice(value=pedal.price type='hidden')
+
           div.col-1.d-flex.justify-content-center.align-items-center
             if pedal.category.name=='Overdrive'
               span.fas.fa-fire
