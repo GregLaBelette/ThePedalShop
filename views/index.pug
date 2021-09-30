@@ -13,11 +13,11 @@ block content
     div#message.p-4
       h2 #{message}
 
-    div#formandpicture.container-fluid
+    div#formandpicture.container-fluid.mb-4
 
       div.row
 
-        div#form.col-sm-7.d-flex.flex-column.justify-content-center
+        div#form.col-md-7.d-flex.flex-column.justify-content-center
           div.form-group
             label(for='name') Name
             input#name.form-control(name='name' type='text' placeholder='Pedal Name')
@@ -33,7 +33,7 @@ block content
               for brand in brands
                 option(value=brand._id) #{brand.name}
 
-              option(value='') ... Manage brands
+              option(value='manage') ... Manage brands
 
           div.form-group
             label(for='category') Category
@@ -46,7 +46,7 @@ block content
               for category in categories
                 option(value=category._id) #{category.name}
 
-              option(value='') ... Manage categories
+              option(value='manage') ... Manage categories
 
           div.form-group
             label(for='Description') Description
@@ -57,14 +57,15 @@ block content
             input#price.form-control(name='price' type='text' placeholder='Pedal price')
           
           div#buttons.d-flex.flex-row.justify-content-around
-            div.btn.w-100 Create
-            div.btn.w-100 Update
-            div.btn.w-100 Delete
+            div#btn-clear.btn.w-100 Clear
+            div#btn-create.btn.w-100 Create
+            div#btn-update.btn.w-100 Update
+            div#btn-delete.btn.w-100 Delete
 
-        div#picture-container.col-sm-5.d-flex.justify-content-center.align-items-center
+        div#picture-container.col-md-5.d-flex.justify-content-center.align-items-center
           img#picture.rounded(src='images/pedal-white.png')
 
-    div#searchresults.container.mt-5
+    div#searchresults.container
 
       - pedals.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
 

@@ -27,10 +27,10 @@ exports.index = function (req, res) {
 
 //-------------------------> Category controllers
 
-//Category read
+//Category manage
 
 exports.category_read = function (req, res) {
-	res.send('Not implemented: Category Read');
+	res.send('Not implemented: Category Manage');
 }
 
 //Category create
@@ -53,25 +53,25 @@ exports.category_delete = function (req, res) {
 
 //-------------------------> Brand controllers
 
-//Brands read
+//Brands manage
 
 exports.brand_read = function (req, res) {
-	res.send('Not implemented: Brand Read');
+	res.send('Not implemented: Brand Manage');
 }
 
-//Category create
+//Brand create
 
 exports.brand_create = function (req, res) {
 	res.send('Not implemented: Brand Create');
 }
 
-//Category Update
+//Brand Update
 
 exports.brand_update = function (req, res) {
 	res.send('Not implemented: Brand Update');
 }
 
-//Category Delete
+//Brand Delete
 
 exports.brand_delete = function (req, res) {
 	res.send('Not implemented: Brand Delete');
@@ -81,8 +81,28 @@ exports.brand_delete = function (req, res) {
 //-------------------------> Pedal controllers
 
 // Pedals search
-exports.pedal_search = function (req, res) {
-	res.send('Not implemented: Pedals Search');
+exports.pedal_search = function (req, res, next) {
+
+	let query = {
+		'name': { $regex: req.query.name, $options: 'i'},
+		'description': { $regex: req.query.description, $options: 'i' }
+	};
+
+	if (req.query.brand !== '') {query.brand = {$in: req.query.brand}};
+	if (req.query.category !== '') {query.category = {$in: req.query.category}};
+	if (req.query.price !== '' && isNaN(parseInt(req.query.price)) === false) {query.price = {$in: req.query.price}};
+
+	Pedal.find(query)
+	.populate('brand')
+	.populate('category')
+	.exec( function (err, pedalsfound) {
+		if (err) {console.log(err);
+							return next(err)}
+		//Success
+		console.log(pedalsfound);
+		res.json(pedalsfound);
+	});
+
 }
 
 // Pedal create

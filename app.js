@@ -38,7 +38,7 @@ app.use(favicon(path.join(__dirname, 'public','images', 'favicon.png')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/pedals', pedalsRouter);
+app.use('/shop', pedalsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

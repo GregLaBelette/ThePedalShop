@@ -12,7 +12,7 @@ router.get('/', controller.index);
 
 //-------------------------> Category routes
 
-// GET for reading categories
+// GET for displaying categories management page
 
 router.get('/category', controller.category_read);
 
@@ -31,7 +31,7 @@ router.post('/category/:id/delete', controller.category_delete);
 
 //-------------------------> Brand routes
 
-// GET for reading brands
+// GET for displaying brand management page
 
 router.get('/brand', controller.brand_read);
 
