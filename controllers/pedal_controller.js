@@ -35,7 +35,7 @@ exports.category_read = function (req, res) {
 	.exec( function (err, categoriesfound) {
 
 		if (err) { return next(err); }
-		res.render('categories', { title: 'The Pedal Shop', message: `${categoriesfound.length} Pedal categories found`} );
+		res.render('categories', { title: 'The Pedal Shop', categories: categoriesfound, message: `${categoriesfound.length} Pedal categories found`} );
 	})
 
 }
@@ -68,7 +68,7 @@ exports.brand_read = function (req, res, next) {
 	.exec( function (err, brandsfound) {
 
 		if (err) { return next(err); }
-		res.render('brands', { title: 'The Pedal Shop', message: `${brandsfound.length} Pedal brands found`} );
+		res.render('brands', { title: 'The Pedal Shop', brands: brandsfound, message: `${brandsfound.length} Pedal brands found`} );
 	})
 
 }

@@ -12,3 +12,44 @@ block content
 
     div#message.p-4
       h2 #{message}
+
+  form#searchresults.container
+
+    div.row.text-center.newbrand.selected
+
+      div.col-1.d-flex.justify-content-center.align-items-center
+        span.fas.fa-volume-up
+
+      div.col.d-flex.justify-content-center.align-items-center
+        span Create new pedal brand
+
+      div.col.d-flex.justify-content-center.align-items-center
+        input#newname(type='text' placeholder='New brand name')
+
+      div#buttons.col.d-flex.justify-content-center.align-items-center
+          button#btn-update.btn.w100 Create
+          button#btn-update.btn.w100 Back to pedals
+
+    - brands.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+
+    for brand in brands
+
+      div.row.text-center.brand.unselected
+
+        input#hiddenId(value=brand._id type='hidden')
+
+        div.col-1.d-flex.justify-content-center.align-items-center
+          span.fas.fa-volume-up
+
+        div.col.d-flex.justify-content-center.align-items-center
+          input#name(type='text' value=brand.name)
+
+        div.col.d-flex.justify-content-center.align-items-center
+          span#count Pedals
+
+        div#buttons.col.d-flex.justify-content-center.align-items-center
+          button#btn-update.btn.w100 Update
+          button#btn-delete.btn.w100 Delete
+
+  //Scripts
+  script(src='/javascripts/brands.js' defer)
