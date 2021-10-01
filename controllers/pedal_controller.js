@@ -30,7 +30,14 @@ exports.index = function (req, res) {
 //Category manage
 
 exports.category_read = function (req, res) {
-	res.send('Not implemented: Category Manage');
+
+	Category.find ({})
+	.exec( function (err, categoriesfound) {
+
+		if (err) { return next(err); }
+		res.render('categories', { title: 'The Pedal Shop', message: `${categoriesfound.length} Pedal categories found`} );
+	})
+
 }
 
 //Category create
@@ -55,8 +62,15 @@ exports.category_delete = function (req, res) {
 
 //Brands manage
 
-exports.brand_read = function (req, res) {
-	res.send('Not implemented: Brand Manage');
+exports.brand_read = function (req, res, next) {
+
+	Brand.find ({})
+	.exec( function (err, brandsfound) {
+
+		if (err) { return next(err); }
+		res.render('brands', { title: 'The Pedal Shop', message: `${brandsfound.length} Pedal brands found`} );
+	})
+
 }
 
 //Brand create

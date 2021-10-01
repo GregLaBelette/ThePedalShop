@@ -21,8 +21,7 @@ const searchresults = document.getElementById('searchresults');
 //Onload events
 
 window.onload = function () {
-
-	setPedalsOnclickEvents();
+	setPedalsOnclickEvents(pedals);
 	getPicturesInList(pedals);
 
 }
@@ -31,7 +30,7 @@ window.onload = function () {
 // Search results onclick events
 
 
-function setPedalsOnclickEvents () {
+function setPedalsOnclickEvents (pedals) {
 
 	pedals.forEach((pedal) => {
 		pedal.onclick = function () {
@@ -42,12 +41,12 @@ function setPedalsOnclickEvents () {
 
 			pedal.classList.add('selected');
 
-			const id = pedal.childNodes[0].value;
-			const name = pedal.childNodes[1].value;
-			const brand = pedal.childNodes[2].value;
-			const category = pedal.childNodes[3].value;
-			const description = pedal.childNodes[4].value;
-			const price = pedal.childNodes[5].value;
+			const id = pedal.children[0].value;
+			const name = pedal.children[1].value;
+			const brand = pedal.children[2].value;
+			const category = pedal.children[3].value;
+			const description = pedal.children[4].value;
+			const price = pedal.children[5].value;
 
 			nameInput.value = name;
 			brandInput.value = brand;
@@ -72,19 +71,68 @@ function setPedalsOnclickEvents () {
 
 // Search filters onchange events
 
-nameInput.oninput = search;
-brandInput.onchange = search;
-categoryInput.onchange = search;
-descriptionInput.oninput = search;
-priceInput.oninput = search;
+nameInput.oninput = function () {
+	if (categoryInput.value === 'manage') {
+		categoryInput.value = '';
+	}
+	if (brandInput.value === 'manage') {
+		brandInput.value = '';
+	}
+	search();
+};
+brandInput.onchange = function () {
+	if (categoryInput.value === 'manage') {
+		categoryInput.value = '';
+	}
+	search();
+};
+categoryInput.onchange = function () {
+	if (brandInput.value === 'manage') {
+		brandInput.value = '';
+	}
+	search();
+};
+descriptionInput.oninput = function () {
+	if (categoryInput.value === 'manage') {
+		categoryInput.value = '';
+	}
+	if (brandInput.value === 'manage') {
+		brandInput.value = '';
+	}
+	search();
+};
+priceInput.oninput = function () {
+	if (categoryInput.value === 'manage') {
+		categoryInput.value = '';
+	}
+	if (brandInput.value === 'manage') {
+		brandInput.value = '';
+	}
+	search();
+};
 
 function search () {
+
+	if (brandInput.value === 'manage') {
+		location.href = 'shop/brand';
+		return;
+	}
+
+	if (categoryInput.value === 'manage') {
+		location.href = 'shop/category';
+		return;
+	}
+
 	const domain = window.location.href;
 	let searchUrl = domain + '/pedal/search';
 	searchUrl = addQueryParams(searchUrl);
 	fetch(searchUrl)
-	.then((response) => response.json())
-	.then((response) => displaySearchResults(response))
+	.then((response) => {
+		response.json()
+		.then(function (response) {
+			displaySearchResults(response);
+		})
+	})
 }
 
 function addQueryParams (url) {
@@ -110,9 +158,9 @@ function displaySearchResults (response) {
 	}
 
 	emptyPedalDiv();
-	populatePedalDiv();
+	populatePedalDiv(response);
 	pedals = document.querySelectorAll('.pedal');
-	setPedalsOnclickEvents();
+	setPedalsOnclickEvents(pedals);
 	getPicturesInList(pedals);
 
 }
@@ -121,17 +169,66 @@ function emptyPedalDiv() {
 	searchresults.innerHTML = '';
 }
 
-function populatePedalDiv() {
-	
+function populatePedalDiv(response) {
+	response.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;})
+	response.forEach(pedal => {
+		createPedalDiv(pedal)
+	});
+}
+
+function createPedalDiv(pedal) {
+
+	let pedalLogoClass;
+	if (pedal.category.name=='Overdrive') { pedalLogoClass = 'fas fa-fire'}
+	else if (pedal.category.name=='Distortion') { pedalLogoClass = 'fas fa-bolt'}
+	else if (pedal.category.name=='Tremolo') { pedalLogoClass = 'fas fa-water'}
+	else if (pedal.category.name=='Delay') { pedalLogoClass = 'fas fa-wifi'}
+	else { pedalLogoClass = 'fas fa-volume-up'};
+
+	const html =
+	`<div class='row text-center pedal unselected'>
+		<input id='hiddenId' value=${pedal._id} type='hidden'></input>
+		<input id='hiddenName' value='${pedal.name}' type='hidden'></input>
+		<input id='hiddenBrand' value=${pedal.brand._id} type='hidden'></input>
+		<input id='hiddenCategory' value=${pedal.category._id} type='hidden'></input>
+		<input id='hiddenDescription' value='${pedal.description}' type='hidden'></input>
+		<input id='hiddenPrice' value=${pedal.price} type='hidden'></input>
+		<div class='col-1 d-flex justify-content-center align-items-center'>
+			<span class='${pedalLogoClass}'></span>
+		</div>
+		<div class='col d-flex justify-content-center align-items-center'>
+			<span>${pedal.brand.name}</span>
+		</div>
+		<div class='col d-flex justify-content-center align-items-center'>
+			<span class='pedal-name'>${pedal.name}</span>
+		</div>
+		<div class='col d-flex justify-content-center align-items-center'>
+			<span>${pedal.category.name}</span>
+		</div>
+		<div class='col d-flex justify-content-center align-items-center'>
+			<span>${pedal.price} €</span>
+		</div>
+		<div class='col d-flex justify-content-center align-items-center'>
+			<div class='miniature' style='background-image: url("../images/pedal-white.png")'>
+			</div>
+		</div>
+
+	</div>`
+	searchresults.innerHTML += html;
+
 }
 
 // CRUD Button events handlers
 
 clearbtn.onclick = function () {
 	location.reload();
+	emptyFields();
+}
+
+function emptyFields() {
 	nameInput.value = null;
-	brandInput.value = null;
-	categoryInput.value = null;
+	brandInput.value = '';
+	categoryInput.value = '';
 	descriptionInput.value = null;
 	priceInput.value = null;
 }
@@ -142,8 +239,8 @@ function getPicturesInList (pedals) {
 
 	pedals.forEach((pedal) => {
 
-			const id = pedal.childNodes[0].value;
-			const miniature = pedal.lastChild.firstChild;
+			const id = pedal.children[0].value;
+			const miniature = pedal.children[pedal.children.length-1].children[0];
 
 			fetch(`/images/pedals/${id.toString()}.jpg`)
 			.then((response) => {
