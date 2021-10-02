@@ -12,3 +12,44 @@ block content
 
     div#message.p-4
       h2 #{message}
+
+  div#searchresults.container
+
+    form(method='POST' action='/shop/category/create').row.text-center.newcategory.selected
+
+      div.col-1.d-flex.justify-content-center.align-items-center
+        span.fas.fa-volume-up
+
+      div.col.d-flex.justify-content-center.align-items-center
+        span Create new pedal category
+
+      div.col.d-flex.justify-content-center.align-items-center
+        input#newname.form-control(type='text' placeholder='New category name' name='name' spellcheck='false')
+
+      div#buttons.col.d-flex.justify-content-center.align-items-center
+          button(type='submit')#btn-update.btn.w100 Create
+          a#btn-back.btn.w100(href='/') Back to pedals
+
+    - categories.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+
+    for category in categories
+
+      form(method='POST' action=`/shop/category/${category._id}/update`).row.text-center.category.unselected
+
+        input#hiddenId(value=category._id type='hidden' name='id')
+
+        div.col-1.d-flex.justify-content-center.align-items-center
+          span.fas.fa-volume-up
+
+        div.col.d-flex.justify-content-center.align-items-center
+          input.form-control#name(type='text' value=category.name name='name' spellcheck='false')
+
+        div.col.d-flex.justify-content-center.align-items-center
+          span#count Pedals
+
+        div#buttons.col.d-flex.justify-content-center.align-items-center
+          button(type='submit')#btn-update.btn.w100 Update
+          a(href=`/shop/category/${category._id}/delete`)#btn-delete.btn.w100 Delete
+
+  //Scripts
+  script(src='/javascripts/categories.js' defer)

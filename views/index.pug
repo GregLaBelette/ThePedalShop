@@ -20,7 +20,7 @@ block content
         div#form.col-md-7.d-flex.flex-column.justify-content-center
           div.form-group
             label(for='name') Name
-            input#name.form-control(name='name' type='text' placeholder='Pedal Name')
+            input#name.form-control(name='name' type='text' placeholder='Pedal Name' spellcheck='false')
 
           div.form-group
             label(for='brand') Brand
@@ -50,11 +50,11 @@ block content
 
           div.form-group
             label(for='Description') Description
-            textarea#description.form-control(name='description' type='textarea', placeholder='Pedal description' rows='6')
+            textarea#description.form-control(name='description' type='textarea', placeholder='Pedal description' rows='6' spellcheck='false')
 
           div.form-group
             label(for='price') Price €
-            input#price.form-control(name='price' type='text' placeholder='Pedal price')
+            input#price.form-control(name='price' type='text' placeholder='Pedal price'  spellcheck='false')
           
           div#buttons.d-flex.flex-row.justify-content-around
             div#btn-clear.btn.w-100 Clear

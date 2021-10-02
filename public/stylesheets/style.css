@@ -46,7 +46,15 @@ a:hover {
 
 input[type='text'], select[type='select'], textarea[type='textarea'] {
   font-size:  95%;
-  color: #04151F;
+  color: inherit;
+  border: solid 1px #F7F0F5;
+  background-color: inherit;
+  border-radius: 5px;
+}
+
+input[type='text']:focus, select[type='select']:focus, textarea[type='textarea']:focus {
+  background-color: inherit;
+  color: inherit;
 }
 
 .btn {

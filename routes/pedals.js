@@ -24,9 +24,9 @@ router.post('/category/create', controller.category_create);
 
 router.post('/category/:id/update', controller.category_update);
 
-// POST for deleting a category
+// GET for deleting a category
 
-router.post('/category/:id/delete', controller.category_delete);
+router.get('/category/:id/delete', controller.category_delete);
 
 
 //-------------------------> Brand routes
@@ -39,13 +39,13 @@ router.get('/brand', controller.brand_read);
 
 router.post('/brand/create', controller.brand_create);
 
-// POST for updating a category
+// POST for updating a brand
 
 router.post('/brand/:id/update', controller.brand_update);
 
-// POST for deleting a category
+// GET for deleting a brand
 
-router.post('/brand/:id/delete', controller.brand_delete);
+router.get('/brand/:id/delete', controller.brand_delete);
 
 
 //-------------------------> Pedals routes

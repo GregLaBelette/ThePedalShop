@@ -5,7 +5,6 @@ block content
   div#headline.d-flex.flex-column.align-items-center
 
     h1.mb-0.text-center #{title}
-
     div.text-center.w-50.ml-auto.mr-auto.mb-2
       p.mb-0 Custom unique beautiful guitar pedals
       hr
@@ -13,9 +12,9 @@ block content
     div#message.p-4
       h2 #{message}
 
-  form#searchresults.container
+  div#searchresults.container
 
-    div.row.text-center.newbrand.selected
+    form(method='POST' action='/shop/brand/create').row.text-center.newbrand.selected
 
       div.col-1.d-flex.justify-content-center.align-items-center
         span.fas.fa-volume-up
@@ -24,17 +23,17 @@ block content
         span Create new pedal brand
 
       div.col.d-flex.justify-content-center.align-items-center
-        input#newname(type='text' placeholder='New brand name')
+        input#newname.form-control(type='text' placeholder='New brand name' name='name' spellcheck='false')
 
       div#buttons.col.d-flex.justify-content-center.align-items-center
-          button#btn-update.btn.w100 Create
-          button#btn-update.btn.w100 Back to pedals
+          button(type='submit')#btn-update.btn.w100 Create
+          a#btn-back.btn.w100(href='/') Back to pedals
 
     - brands.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
 
     for brand in brands
 
-      div.row.text-center.brand.unselected
+      form(method='POST' action=`/shop/brand/${brand._id}/update`).row.text-center.brand.unselected
 
         input#hiddenId(value=brand._id type='hidden')
 
@@ -42,14 +41,14 @@ block content
           span.fas.fa-volume-up
 
         div.col.d-flex.justify-content-center.align-items-center
-          input#name(type='text' value=brand.name)
+          input.form-control#name(type='text' value=brand.name name='name' spellcheck='false')
 
         div.col.d-flex.justify-content-center.align-items-center
           span#count Pedals
 
         div#buttons.col.d-flex.justify-content-center.align-items-center
-          button#btn-update.btn.w100 Update
-          button#btn-delete.btn.w100 Delete
+          button(type='submit')#btn-update.btn.w100 Update
+          a(href=`/shop/brand/${brand._id}/delete`)#btn-delete.btn.w100 Delete
 
   //Scripts
   script(src='/javascripts/brands.js' defer)
