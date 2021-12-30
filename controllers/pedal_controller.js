@@ -388,13 +388,11 @@ exports.pedal_search = function (req, res, next) {
 
 }
 
-// Pedal display form
+// Pedal Create
 
-exports.pedal_form = [
+exports.pedal_create = [
   // Validate and sanitize
   body('name', 'A pedal name is required!').trim().isLength({ min: 1 }).escape(),
-  //body('brand', 'Brand is required!').isLength({ min: 1 }),
-  //body('category', 'Category is required!').isLength({ min: 1 }),
   body('description', 'A description is required!').trim().isLength({ min: 1 }).escape(),
   body('price', 'A price is required!').trim().isLength({ min: 1 }).escape(),
 
@@ -442,15 +440,85 @@ exports.pedal_form = [
         res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `${errorText}`, selected:selected});
       })
 
+    } else {
+
+      // Look for already existing pedal
+      Pedal.findOne({ 'name': req.body.name })
+      .exec(function (err, found_pedal) {
+        if (err) { return next(err) };
+        if (found_pedal) {
+
+          // Render with 'already existing' message
+          async.parallel({
+            brands: function (callback) {
+              Brand.find({})
+                .exec(callback);
+            },
+            categories: function (callback) {
+              Category.find({})
+                .exec(callback);
+            },
+            pedals: function (callback) {
+              Pedal.find({})
+                .populate('brand')
+                .populate('category')
+                .exec(callback)
+            }
+          },
+            function (err, results) {
+              if (err) { return next(err) }
+              let errorText = ''
+              errors.array().forEach((error) => {
+                errorText += `${error.msg}`
+              })
+              res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `A pedal named ${found_pedal.name} already exists!`, selected: selected });
+            })
+
+        } else {
+
+          // Create pedal and then re-render
+          var newPedal = new Pedal ({
+            name: req.body.name,
+            brand: req.body.brand,
+            category: req.body.category,
+            description: req.body.description,
+            price: req.body.price
+          })
+          newPedal.save(function(err) {
+            if (err) { return next (err) }
+
+            //Re-render with message
+            async.parallel({
+              brands: function (callback) {
+                Brand.find({})
+                  .exec(callback);
+              },
+              categories: function (callback) {
+                Category.find({})
+                  .exec(callback);
+              },
+              pedals: function (callback) {
+                Pedal.find({})
+                  .populate('brand')
+                  .populate('category')
+                  .exec(callback)
+              }
+            },
+              function (err, results) {
+                if (err) { return next(err) }
+                let errorText = ''
+                errors.array().forEach((error) => {
+                  errorText += `${error.msg}`
+                })
+                res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `Successfully created new pedal '${req.body.name}'`, selected: selected });
+              })
+          })
+        }
+      })
     }
   }
 ]
 
-
-// Pedal create
-exports.pedal_create = function (req, res) {
-  res.send('Not implemented: Pedal Create');
-}
 
 // Pedal update
 
@@ -461,7 +529,33 @@ exports.pedal_update = function (req, res) {
 // Pedal Delete
 
 exports.pedal_delete = function (req, res) {
-  res.send('Not implemented: Pedal Delete');
+  const name = req.body.name;
+  console.log(req.params.id)
+  Pedal.findByIdAndRemove(req.params.id, function deletePedal(err) {
+    if (err) { return next(err) }
+
+    // Gather new data to render index with message
+    async.parallel({
+      brands: function (callback) {
+        Brand.find({})
+          .exec(callback);
+      },
+      categories: function (callback) {
+        Category.find({})
+          .exec(callback);
+      },
+      pedals: function (callback) {
+        Pedal.find({})
+          .populate('brand')
+          .populate('category')
+          .exec(callback)
+      }
+    },
+      function (err, results) {
+        if (err) { return next(err) }
+        res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `Successfully deleted pedal '${name}'`});
+      })
+  })
 }
 
 

@@ -54,10 +54,6 @@ router.get('/brand/:id/delete', controller.brand_delete);
 
 router.get('/pedal/search', controller.pedal_search);
 
-// POST for displaying pedals form
-
-router.post('/pedal/form', controller.pedal_form);
-
 // POST for creating a pedal
 
 router.post('/pedal/create', controller.pedal_create);
@@ -68,7 +64,7 @@ router.post('/pedal/:id/update', controller.pedal_update);
 
 // POST for deleting a pedal
 
-router.post('/pedal/:id/delete', controller.pedal_delete);
+router.post('/pedal/delete/:id', controller.pedal_delete);
 
 
 //-------------------------> Pictures handling

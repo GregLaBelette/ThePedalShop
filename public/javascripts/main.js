@@ -7,7 +7,6 @@ const brandInput  = document.getElementById('brand');
 const categoryInput  = document.getElementById('category');
 const descriptionInput  = document.getElementById('description');
 const priceInput  = document.getElementById('price');
-const formDestination = document.getElementById('form-destination');
 
 const clearbtn = document.getElementById('btn-clear');
 const createbtn = document.getElementById('btn-create');
@@ -126,8 +125,7 @@ function search () {
 		return;
 	}
 
-	const domain = window.location.href;
-	let searchUrl = domain + '/pedal/search';
+	let searchUrl = '/shop/pedal/search';
 	searchUrl = addQueryParams(searchUrl);
 	fetch(searchUrl)
 	.then((response) => {
@@ -199,13 +197,13 @@ function createPedalDiv(pedal) {
 		<div class='col-1 d-flex justify-content-center align-items-center'>
 			<span class='${pedalLogoClass}'></span>
 		</div>
-		<div class='col d-flex justify-content-center align-items-center'>
+		<div class='col d-flex justify-content-center align-items-center brand'>
 			<span>${pedal.brand.name}</span>
 		</div>
 		<div class='col d-flex justify-content-center align-items-center'>
 			<span class='pedal-name'>${pedal.name}</span>
 		</div>
-		<div class='col d-flex justify-content-center align-items-center'>
+		<div class='col d-flex justify-content-center align-items-center category'>
 			<span>${pedal.category.name}</span>
 		</div>
 		<div class='col d-flex justify-content-center align-items-center'>
@@ -236,12 +234,26 @@ function emptyFields() {
 	priceInput.value = null;
 }
 
-createbtn.onclick = function () {
-  formDestination.value = 'create';
+createbtn.onclick = function (e) {
+  // POST request
+  document.getElementById('form').setAttribute('method', 'POST');
+  document.getElementById('form').setAttribute('action', '/shop/pedal/create');
 }
 
 updatebtn.onclick = function () {
-  formDestination.value = 'update';
+  // PATCH request here
+
+}
+
+deletebtn.onclick = function () {
+  // DELETE request here
+  if (document.querySelector('.selected')) {
+    const id = document.querySelector('.selected').firstChild.value
+    document.getElementById('form').setAttribute('method', 'POST');
+    document.getElementById('form').setAttribute('action', `/shop/pedal/delete/${id}`);
+  } else {
+    message.innerHTML = `<h2 class='px-5'>Please select a pedal to delete</h2>`
+  }
 }
 
 // Pictures management

@@ -17,7 +17,7 @@ block content
 
       div.row
 
-        form#form.col-md-7.d-flex.flex-column.justify-content-center(method='POST' action=('/shop/pedal/form'))
+        form#form.col-md-7.d-flex.flex-column.justify-content-center(method='GET' action=('#'))
           div.form-group
             label(for='name') Name
             input#name.form-control(name='name' type='text' placeholder='Pedal Name' spellcheck='false' value=(selected? selected.name : ''))
@@ -62,14 +62,11 @@ block content
             label(for='price') Price €
             input#price.form-control(name='price' type='text' placeholder='Pedal price'  spellcheck='false' value=(selected? selected.price : ''))
 
-          div.form-group
-            input#form-destination.form-control(name='destination' placeholder='form destination' type='hidden')
-
           div#buttons.d-flex.flex-row.justify-content-around
             div#btn-clear.btn.w-100 Clear
             button#btn-create.btn.w-100(type='submit') Create
             button#btn-update.btn.w-100(type='submit') Update
-            div#btn-delete.btn.w-100 Delete
+            button#btn-delete.btn.w-100(type='submit') Delete
 
         div#picture-container.col-md-5.d-flex.justify-content-center.align-items-center
           img#picture.rounded(src='/images/pedal-white.png')
@@ -114,7 +111,7 @@ block content
             span #{pedal.price} €
 
           div.col.d-flex.justify-content-center.align-items-center
-              div.miniature(style='background-image: url("/public/images/pedal-white.png")')
+              div.miniature(style='background-image: url("/images/pedal-white.png")')
 
   //Scripts
   script(src='/javascripts/main.js' defer)
