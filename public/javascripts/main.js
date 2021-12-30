@@ -55,6 +55,8 @@ function setPedalsOnclickEvents (pedals) {
 			descriptionInput.value = description;
 			priceInput.value = price;
 
+      message.innerHTML = `<h2 class='px-5'>${name}, from ${pedal.querySelector('.brand').innerText} selected</h2>`
+
 			fetch(`/images/pedals/${id.toString()}.jpg`)
 			.then((response) => {
 
