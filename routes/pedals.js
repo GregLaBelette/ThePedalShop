@@ -54,6 +54,10 @@ router.get('/brand/:id/delete', controller.brand_delete);
 
 router.get('/pedal/search', controller.pedal_search);
 
+// POST for displaying pedals form
+
+router.post('/pedal/form', controller.pedal_form);
+
 // POST for creating a pedal
 
 router.post('/pedal/create', controller.pedal_create);

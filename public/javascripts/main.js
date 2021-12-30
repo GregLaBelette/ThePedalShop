@@ -7,6 +7,7 @@ const brandInput  = document.getElementById('brand');
 const categoryInput  = document.getElementById('category');
 const descriptionInput  = document.getElementById('description');
 const priceInput  = document.getElementById('price');
+const formDestination = document.getElementById('form-destination');
 
 const clearbtn = document.getElementById('btn-clear');
 const createbtn = document.getElementById('btn-create');
@@ -58,15 +59,15 @@ function setPedalsOnclickEvents (pedals) {
 			.then((response) => {
 
 				if (response.status !== 200) {
-					picture.innerHTML = `<img id='picture' class='rounded' src='images/pedal-white.png'></img>`;
+					picture.innerHTML = `<img id='picture' class='rounded' src='/images/pedal-white.png'></img>`;
 				}
 				else {
-					picture.innerHTML = `<img id='picture' class='rounded' src='images/pedals/${id}.jpg'></img>`;
+					picture.innerHTML = `<img id='picture' class='rounded' src='/images/pedals/${id}.jpg'></img>`;
 				}
 			})
 		}
-	})  
-}  
+	})
+}
 
 
 // Search filters onchange events
@@ -145,13 +146,13 @@ function addQueryParams (url) {
 }
 
 function displaySearchResults (response) {
-	
+
 	const numberOfResults = response.length;
 	if (numberOfResults === 0) {
 		message.innerHTML = `<h2>Sorry, no results found</h2>`;
 	}
 	else if (numberOfResults === 1) {
-		message.innerHTML = `<h2>Found 1 pedal, click on it!</h2>`	
+		message.innerHTML = `<h2>Found 1 pedal, click on it!</h2>`
 	}
 	else {
 		message.innerHTML = `<h2>Found ${numberOfResults} pedals, pick one!</h2>`
@@ -221,7 +222,7 @@ function createPedalDiv(pedal) {
 // CRUD Button events handlers
 
 clearbtn.onclick = function () {
-	location.reload();
+	location.href = '/shop';
 	emptyFields();
 }
 
@@ -231,6 +232,14 @@ function emptyFields() {
 	categoryInput.value = '';
 	descriptionInput.value = null;
 	priceInput.value = null;
+}
+
+createbtn.onclick = function () {
+  formDestination.value = 'create';
+}
+
+updatebtn.onclick = function () {
+  formDestination.value = 'update';
 }
 
 // Pictures management
@@ -249,7 +258,7 @@ function getPicturesInList (pedals) {
 					console.log(response.status);
 				}
 				else {
-					miniature.style.cssText = `background-image: url("../images/pedals/${id.toString()}.jpg")`;
+					miniature.style.cssText = `background-image: url("/images/pedals/${id.toString()}.jpg")`;
 				}
 
 
@@ -258,4 +267,3 @@ function getPicturesInList (pedals) {
 	})
 
 }
-
