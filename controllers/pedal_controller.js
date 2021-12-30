@@ -510,7 +510,7 @@ exports.pedal_create = [
                 errors.array().forEach((error) => {
                   errorText += `${error.msg}`
                 })
-                res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `Successfully created new pedal '${req.body.name}'`, selected: selected });
+                res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `Successfully created new pedal '${req.body.name}'` });
               })
           })
         }
@@ -528,7 +528,7 @@ exports.pedal_update = function (req, res) {
 
 // Pedal Delete
 
-exports.pedal_delete = function (req, res) {
+exports.pedal_delete = function (req, res, next) {
   const name = req.body.name;
   console.log(req.params.id)
   Pedal.findByIdAndRemove(req.params.id, function deletePedal(err) {

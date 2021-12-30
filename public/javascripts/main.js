@@ -248,7 +248,7 @@ updatebtn.onclick = function () {
 deletebtn.onclick = function () {
   // DELETE request here
   if (document.querySelector('.selected')) {
-    const id = document.querySelector('.selected').firstChild.value
+    const id = document.querySelector('.selected').querySelector('#hiddenId').value
     document.getElementById('form').setAttribute('method', 'POST');
     document.getElementById('form').setAttribute('action', `/shop/pedal/delete/${id}`);
   } else {
