@@ -13,14 +13,10 @@ var pedalsRouter = require('./routes/pedals');
 //Set up monggose connection
 var mongoose = require('mongoose');
 var dev_db_url = 'mongodb+srv://gregLaBelette:WgvCzBCpWtbYu4v5@pedalshopcluster.cgddo.mongodb.net/PedalShop-Dev?retryWrites=true&w=majority';
-var mongoDB = dev_db_url;
-//var mongoDB = process.env.MONGODB-URI || dev_db_url;
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
-
-// 'mongodb+srv://gregLaBelette:WgvCzBCpWtbYu4v5@pedalshopcluster.cgddo.mongodb.net/PedalShop-Dev?retryWrites=true&w=majority'
-// 'mongodb+srv://gregLaBelette:WgvCzBCpWtbYu4v5@pedalshopcluster.cgddo.mongodb.net/PedalShop-Main?retryWrites=true&w=majority'
 
 var app = express();
 
