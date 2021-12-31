@@ -18,6 +18,9 @@ block content
       div.row
 
         form#form.col-md-7.d-flex.flex-column.justify-content-center(method='GET' action=('#'))
+
+          input#if-selected(type='hidden' value=(selected? selected.name : ''))
+
           div.form-group
             label(for='name') Name
             input#name.form-control(name='name' type='text' placeholder='Pedal Name' spellcheck='false' value=(selected? selected.name : ''))

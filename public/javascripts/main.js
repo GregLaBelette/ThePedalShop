@@ -18,14 +18,26 @@ const picture = document.getElementById('picture-container');
 let pedals = document.querySelectorAll('.pedal');
 const searchresults = document.getElementById('searchresults');
 
-//Onload events
+// Onload events
 
 window.onload = function () {
 	setPedalsOnclickEvents(pedals);
 	getPicturesInList(pedals);
-
+  checkSelected();
 }
 
+// Check if render with already selected pedal and select if needed
+
+function checkSelected() {
+  if(document.querySelector('#if-selected').value != '') {
+    const name = document.querySelector('#if-selected').value;
+    const selectedPedal = document.querySelector(`#hiddenName[value='${name}']`).parentNode
+    document.querySelectorAll('.pedal').forEach((pedal) => {
+      pedal.classList.remove('selected');
+    })
+    selectedPedal.classList.add('selected');
+  }
+}
 
 // Search results onclick events
 
@@ -48,6 +60,7 @@ function setPedalsOnclickEvents (pedals) {
 			const description = pedal.children[4].value;
 			const price = pedal.children[5].value;
 
+      document.querySelector('#if-selected').value = 'name'
 			nameInput.value = name;
 			brandInput.value = brand;
 			categoryInput.value = category;
