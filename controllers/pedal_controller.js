@@ -522,15 +522,146 @@ exports.pedal_create = [
 
 // Pedal update
 
-exports.pedal_update = function (req, res) {
-  res.send('Not implemented: Pedal Update');
-}
+exports.pedal_update = [
+  // Validate and sanitize
+  body('name', 'A pedal name is required!').trim().isLength({ min: 1 }).escape(),
+  body('description', 'A description is required!').trim().isLength({ min: 1 }).escape(),
+  body('price', 'A price is required!').trim().isLength({ min: 1 }).escape(),
+
+  (req, res, next) => {
+
+    // Extract validation errors
+    const errors = validationResult(req);
+
+    // Created object form field values
+    let selected = {
+      name: req.body.name,
+      brand: req.body.brand,
+      category: req.body.category,
+      description: req.body.description,
+      price: req.body.price,
+      destination: req.body.destination
+    }
+
+    if (!errors.isEmpty()) {
+
+      // Render again with error message
+      async.parallel({
+        brands: function (callback) {
+          Brand.find({})
+            .exec(callback);
+        },
+        categories: function (callback) {
+          Category.find({})
+            .exec(callback);
+        },
+        pedals: function (callback) {
+          Pedal.find({})
+            .populate('brand')
+            .populate('category')
+            .exec(callback)
+        }
+      },
+        function (err, results) {
+          if (err) { return next(err) }
+          let errorText = ''
+          errors.array().forEach((error) => {
+            errorText += `${error.msg}`
+          })
+          res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `${errorText}`, selected: selected });
+        })
+
+    } else {
+
+      // Look for already existing pedal
+      async.parallel({
+        currentPedal: function (callback) {
+          Pedal.findById(req.params.id)
+          .exec(callback);
+        },
+        existingPedal: function (callback) {
+          Pedal.findOne({ name: req.body.name })
+          .exec(callback);
+        }},
+        function updatePedal(err, results) {
+          if (err) { return next(err) }
+          if (results.existingPedal && (results.existingPedal.name != results.currentPedal.name)){
+
+            // render with 'already existing' message
+            async.parallel({
+              brands: function (callback) {
+                Brand.find({})
+                  .exec(callback);
+              },
+              categories: function (callback) {
+                Category.find({})
+                  .exec(callback);
+              },
+              pedals: function (callback) {
+                Pedal.find({})
+                  .populate('brand')
+                  .populate('category')
+                  .exec(callback)
+              }
+            },
+              function (err, results) {
+                if (err) { return next(err) }
+                let errorText = ''
+                errors.array().forEach((error) => {
+                  errorText += `${error.msg}`
+                })
+                res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `There is already a pedal named '${req.body.name}'`, selected: selected });
+              })
+
+          } else {
+
+            // update pedal
+            const updatedPedal = new Pedal ({
+              name: req.body.name,
+              brand: req.body.brand,
+              category: req.body.category,
+              description: req.body.description,
+              price: req.body.price,
+              _id: req.params.id
+            });
+            Pedal.findByIdAndUpdate(req.params.id, updatedPedal, {}, function(err) {
+
+              // redirect to index, 'successfully udpated' message
+              async.parallel({
+                brands: function (callback) {
+                  Brand.find({})
+                    .exec(callback);
+                },
+                categories: function (callback) {
+                  Category.find({})
+                    .exec(callback);
+                },
+                pedals: function (callback) {
+                  Pedal.find({})
+                    .populate('brand')
+                    .populate('category')
+                    .exec(callback)
+                }
+              },
+                function (err, results) {
+                  if (err) { return next(err) }
+                  let errorText = ''
+                  errors.array().forEach((error) => {
+                    errorText += `${error.msg}`
+                  })
+                  res.render('index', { title: 'The Pedal Shop', error: err, brands: results.brands, categories: results.categories, pedals: results.pedals, message: `Successfully updated pedal '${req.body.name}'`, selected: selected });
+                })
+            })
+          }
+        })
+    }
+  }
+]
 
 // Pedal Delete
 
 exports.pedal_delete = function (req, res, next) {
   const name = req.body.name;
-  console.log(req.params.id)
   Pedal.findByIdAndRemove(req.params.id, function deletePedal(err) {
     if (err) { return next(err) }
 

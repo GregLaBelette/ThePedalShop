@@ -60,7 +60,7 @@ router.post('/pedal/create', controller.pedal_create);
 
 // POST for updating a pedal
 
-router.post('/pedal/:id/update', controller.pedal_update);
+router.post('/pedal/update/:id', controller.pedal_update);
 
 // POST for deleting a pedal
 

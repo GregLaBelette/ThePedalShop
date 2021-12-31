@@ -125,6 +125,10 @@ function search () {
 		return;
 	}
 
+  if (document.querySelector('.selected')) {
+    return;
+  }
+
 	let searchUrl = '/shop/pedal/search';
 	searchUrl = addQueryParams(searchUrl);
 	fetch(searchUrl)
@@ -240,18 +244,28 @@ createbtn.onclick = function (e) {
   document.getElementById('form').setAttribute('action', '/shop/pedal/create');
 }
 
-updatebtn.onclick = function () {
-  // PATCH request here
-
+updatebtn.onclick = function (e) {
+  // POST request for edit here
+  if (document.querySelector('.selected')) {
+    const id = document.querySelector('.selected').querySelector('#hiddenId').value
+    document.getElementById('form').setAttribute('method', 'POST');
+    document.getElementById('form').setAttribute('action', `/shop/pedal/update/${id}`);
+  } else {
+    e.preventDefault();
+    window.scroll(0,0);
+    message.innerHTML = `<h2 class='px-5'>Please select a pedal to update</h2>`
+  }
 }
 
-deletebtn.onclick = function () {
-  // DELETE request here
+deletebtn.onclick = function (e) {
+  // POST request for delete here
   if (document.querySelector('.selected')) {
     const id = document.querySelector('.selected').querySelector('#hiddenId').value
     document.getElementById('form').setAttribute('method', 'POST');
     document.getElementById('form').setAttribute('action', `/shop/pedal/delete/${id}`);
   } else {
+    e.preventDefault();
+    window.scroll(0,0);
     message.innerHTML = `<h2 class='px-5'>Please select a pedal to delete</h2>`
   }
 }
@@ -274,10 +288,6 @@ function getPicturesInList (pedals) {
 				else {
 					miniature.style.cssText = `background-image: url("/images/pedals/${id.toString()}.jpg")`;
 				}
-
-
 			});
-
 	})
-
 }
